@@ -1,0 +1,19 @@
+Source: generative-cad
+Maintainer: Monica Perez Serrano <monicapserrano@outlook.com>
+Build-Depends: debhelper-compat (= 12), dh-python, python3-setuptools, python3-all
+Standards-Version: 4.4.1
+
+Package: python3-generative-cad
+Architecture: all
+Depends: ${python3:Depends}, ${misc:Depends}, freecad, python3-text-to-cad-common
+Suggests: python-generative-cad-doc
+Description: Generate CAD files containing 3D shapes using FreeCAD.
+
+Package: python-generative-cad-doc
+Architecture: all
+Section: doc
+Depends: ${sphinxdoc:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description> (common documentation)
+ <insert long description, indented with spaces>
+ .
+ This is the common documentation package.

@@ -1,0 +1,8 @@
+README.md
+setup.py
+python/model_generation/__init__.py
+python/model_generation.egg-info/PKG-INFO
+python/model_generation.egg-info/SOURCES.txt
+python/model_generation.egg-info/dependency_links.txt
+python/model_generation.egg-info/top_level.txt
+scripts/train_model.py

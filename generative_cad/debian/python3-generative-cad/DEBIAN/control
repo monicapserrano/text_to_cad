@@ -1,0 +1,9 @@
+Package: python3-generative-cad
+Source: generative-cad
+Version: 1.0.0-1
+Architecture: all
+Maintainer: Monica Perez Serrano <monicapserrano@outlook.com>
+Installed-Size: 28
+Depends: python3:any, freecad, python3-text-to-cad-common
+Suggests: python-generative-cad-doc
+Description: Generate CAD files containing 3D shapes using FreeCAD.

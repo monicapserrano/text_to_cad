@@ -1,0 +1,5 @@
+text-to-cad (1.0.0-1) unstable; urgency=medium
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- monch <monch@unknown>  Wed, 05 Jun 2024 03:36:00 +0200

@@ -1,0 +1,11 @@
+Package: python-generative-cad-doc
+Source: generative-cad
+Version: 1.0.0-1
+Architecture: all
+Maintainer: Monica Perez Serrano <monicapserrano@outlook.com>
+Installed-Size: 9
+Section: doc
+Description: <insert up to 60 chars description> (common documentation)
+ <insert long description, indented with spaces>
+ .
+ This is the common documentation package.

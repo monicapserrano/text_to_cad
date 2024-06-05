@@ -1,0 +1,15 @@
+Package: python3-text-to-cad-common
+Source: text-to-cad-common
+Version: 1.0.0-1
+Architecture: all
+Maintainer: monch <monch@unknown>
+Installed-Size: 50
+Depends: python3:any
+Suggests: python-text-to-cad-common-doc
+Section: unknown
+Priority: optional
+Homepage: <insert the upstream URL, if relevant>
+Description: <insert up to 60 chars description> (Python 3)
+ <insert long description, indented with spaces>
+ .
+ This package installs the library for Python 3.

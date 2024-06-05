@@ -1,0 +1,11 @@
+README.md
+setup.py
+python/text_to_cad_common/__init__.py
+python/text_to_cad_common/cad_parameter_predictor.py
+python/text_to_cad_common/common.py
+python/text_to_cad_common/geometric_primitives.py
+python/text_to_cad_common/parameter_tools.py
+python/text_to_cad_common.egg-info/PKG-INFO
+python/text_to_cad_common.egg-info/SOURCES.txt
+python/text_to_cad_common.egg-info/dependency_links.txt
+python/text_to_cad_common.egg-info/top_level.txt

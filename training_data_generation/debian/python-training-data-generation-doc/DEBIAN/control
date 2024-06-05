@@ -1,0 +1,13 @@
+Package: python-training-data-generation-doc
+Source: training-data-generation
+Version: 1.0.0-1
+Architecture: all
+Maintainer: monch <monch@unknown>
+Installed-Size: 9
+Section: doc
+Priority: optional
+Homepage: <insert the upstream URL, if relevant>
+Description: <insert up to 60 chars description> (common documentation)
+ <insert long description, indented with spaces>
+ .
+ This is the common documentation package.

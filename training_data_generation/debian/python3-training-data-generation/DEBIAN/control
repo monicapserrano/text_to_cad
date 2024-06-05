@@ -1,0 +1,15 @@
+Package: python3-training-data-generation
+Source: training-data-generation
+Version: 1.0.0-1
+Architecture: all
+Maintainer: monch <monch@unknown>
+Installed-Size: 26
+Depends: python3:any
+Suggests: python-training-data-generation-doc
+Section: unknown
+Priority: optional
+Homepage: <insert the upstream URL, if relevant>
+Description: <insert up to 60 chars description> (Python 3)
+ <insert long description, indented with spaces>
+ .
+ This package installs the library for Python 3.
