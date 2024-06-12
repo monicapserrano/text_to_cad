@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# PYTHON_ARGCOMPLETE_OK
 """
 Filename: train_model.py
 Author: Monica Perez Serrano
@@ -23,8 +25,14 @@ from sklearn.feature_extraction.text import CountVectorizer
 import yaml
 
 from text_to_cad_common.cad_parameter_predictor import CADParameterPredictor
-from text_to_cad_common.common import evaluate, preprocess_description, train
+from text_to_cad_common.common import (
+    evaluate,
+    preprocess_description,
+    train,
+    split_string,
+)
 from text_to_cad_common.parameter_tools import from_list_to_parameter, convert_params
+
 
 if __name__ == "__main__":
     """
@@ -86,6 +94,12 @@ if __name__ == "__main__":
         default=128,
         help="Hidden dimension for the model.",
     )
+    optional.add_argument(
+        "--retrain",
+        required=False,
+        action='store_true',
+        help="Flag to indicate retraining with additional data.",
+    )
 
     args = parser.parse_args()
 
@@ -94,6 +108,7 @@ if __name__ == "__main__":
     ).exists(), (
         f"[train_model] The dataset directory {args.datasets_dir} does not exist."
     )
+
     # Load dataset
     log.debug("[train_model] Loading datasets")
     dataset: List[Dict[str, Any]] = []
@@ -102,23 +117,25 @@ if __name__ == "__main__":
             with open(file_path, "r") as f:
                 dataset += json.load(f)
                 log.debug(
-                    f"[train_model] Loaded new data. Current data entries: {len(dataset)}"
+                    f"[train_model] Loaded data from {file_path}. Current data entries: {len(dataset)}"
                 )
+
     assert (
         len(dataset) > 0
     ), f"[train_model] The input dataset from {args.datasets_dir} to train the model is empty!"
+
     processed_dataset: List[Dict[str, Any]] = []
     for entry in dataset:
         new_params = from_list_to_parameter(
             shape=entry["shape"], parameters=entry["cad_parameters"]
         ).to_list()
-        processed_entry = entry
+        processed_entry = entry.copy()
         processed_entry["cad_parameters"] = new_params
         processed_dataset.append(processed_entry)
 
     # Create a DataFrame
     log.debug("[train_model] Creating the database")
-    df = pd.DataFrame(dataset)
+    df = pd.DataFrame(processed_dataset)
 
     # Split DataFrame into train and test sets
     train_df, test_df = train_test_split(df, test_size=0.2)
@@ -127,9 +144,9 @@ if __name__ == "__main__":
     y_test_params = convert_params(test_df["cad_parameters"])
 
     # Determine the length of cad_parameters
-    param_length = y_train_params[0]
+    param_length = len(y_train_params[0])
 
-    # TODO(@monicapserrano) Check that all parameters have the same length
+    # TODO: Check that all parameters have the same length
 
     # Convert to numpy arrays
     y_train_params = np.array(y_train_params, dtype=np.float32)
@@ -143,18 +160,33 @@ if __name__ == "__main__":
         preprocess_description
     )
 
+    if args.retrain and Path(args.vectorizer_file).exists():
+        with open(args.vectorizer_file, "rb") as f:
+            vectorizer = pickle.load(f)
+    else:
+        vectorizer = CountVectorizer(tokenizer=split_string, lowercase=True)
+        vectorizer.fit(train_df["processed_description"])
+
     # Preprocess text data
-    vectorizer = CountVectorizer(tokenizer=lambda x: x.split(), lowercase=True)
-    X_train = vectorizer.fit_transform(train_df["processed_description"]).toarray()
-    X_test = vectorizer.transform(test_df["processed_description"]).toarray()
+    X_train = vectorizer.fit_transform(train_df["processed_description"])
+    X_test = vectorizer.transform(test_df["processed_description"])
 
     with open(args.vectorizer_file, "wb") as f:
         pickle.dump(vectorizer, f)
     log.info(f"[train_model] Vectorizer saved to {args.vectorizer_file}")
 
-    # Convert to PyTorch tensors
-    X_train = torch.tensor(X_train, dtype=torch.float32)
-    X_test = torch.tensor(X_test, dtype=torch.float32)
+    # Convert to PyTorch sparse tensors
+    def to_sparse_tensor(sparse_matrix):
+        coo = sparse_matrix.tocoo()
+        values = coo.data
+        indices = np.vstack((coo.row, coo.col))
+        i = torch.tensor(indices, dtype=torch.int64)
+        v = torch.tensor(values, dtype=torch.float32)
+        shape = coo.shape
+        return torch.sparse.FloatTensor(i, v, torch.Size(shape))
+
+    X_train = to_sparse_tensor(X_train).to_dense()
+    X_test = to_sparse_tensor(X_test).to_dense()
     y_train_params = torch.tensor(y_train_params, dtype=torch.float32)
     y_test_params = torch.tensor(y_test_params, dtype=torch.float32)
 
@@ -163,10 +195,19 @@ if __name__ == "__main__":
     hidden_dim = args.hidden_dimension
     output_dim = param_length  # Predicting the maximum number of parameters
 
+    log.info(
+        f"Model dimensions: INPUT DIM - {input_dim}, HIDDEN_DIM - {hidden_dim}, OUTPUT DIM - {output_dim}."
+    )
+
     # Instantiate the model
-    model = CADParameterPredictor(input_dim, hidden_dim, output_dim)
+    model_predictor = CADParameterPredictor(input_dim, hidden_dim, output_dim)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = model.to(device)
+    model = model_predictor.to(device)
+
+    if args.retrain and Path(args.model_file).exists():
+        model.load_state_dict(torch.load(args.model_file))
+        log.info(f"[train_model] Model loaded from {args.model_file}")
+
 
     # Define optimizer and loss function
     optimizer = optim.Adam(model.parameters())
@@ -178,7 +219,7 @@ if __name__ == "__main__":
 
     for epoch in range(n_epochs):
         train_loss = train(
-            model, X_train, y_train_params, optimizer, criterion, batch_size
+            model, X_train, y_train_params, optimizer, criterion, device, batch_size
         )
         valid_loss = evaluate(model, X_test, y_test_params, criterion, batch_size)
 

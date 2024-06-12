@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# PYTHON_ARGCOMPLETE_OK
 """
 Filename: example_generate_freecad_shape.py
 Author: Monica Perez Serrano

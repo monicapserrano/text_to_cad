@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# PYTHON_ARGCOMPLETE_OK
 """
 Filename: run_text_to_cad.py
 Author: Monica Perez Serrano
@@ -20,12 +22,14 @@ import logging as log
 import torch
 from pathlib import Path
 import pickle
+import subprocess
 import yaml
 
 from generative_cad.freecad_tools import generate_freecad_file
 from text_to_cad_common.cad_parameter_predictor import CADParameterPredictor
-from text_to_cad_common.common import predict
+from text_to_cad_common.common import predict, split_string
 from text_to_cad_common.parameter_tools import from_model_output_to_object
+
 
 if __name__ == "__main__":
     logger = log.getLogger()
@@ -103,7 +107,7 @@ if __name__ == "__main__":
     with open(args.vectorizer_file, "rb") as f:
         vectorizer = pickle.load(f)
 
-    shape_prediction_params = predict(model, args.text_input, vectorizer, device)
+    shape_prediction_params = predict(model, args.text_input, vectorizer, device)[0]
     log.info(f"[run_text_to_cad] Predicted CAD shape parameters: {shape_prediction_params}")
     log.info(f"[run_text_to_cad] Translation and Rotation are not yet supported.")
     pose_prediction_vector = [0] * 6
@@ -120,3 +124,5 @@ if __name__ == "__main__":
         f"[run_text_to_cad] Finished! You can now open the {args.output_file} in FreeCAD. "
         "Remember to click on the object + Space Bar to make it visible."
     )
+
+    subprocess.run(["freecad", args.output_file], check=True)

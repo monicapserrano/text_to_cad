@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # PYTHON_ARGCOMPLETE_OK
 """
-Filename: generate_sphere_data.py
+Filename: generate_circle_data.py
 Author: Monica Perez Serrano
 
 Description: Script to generate training data for the model.
@@ -37,19 +37,19 @@ radius_terms = ["radius", "diameter"]
 
 # Function to generate random parameters
 def generate_random_parameters(size):
-    radius_range = size_to_range[size]
-    radius = random.uniform(*radius_range)
+    size_range = size_to_range[size]
+    radius = random.uniform(*size_range)
     return radius
 
 # Function to create a qualitative description
 def create_qualitative_description(size, radius_term):
-    return f"A {size} sphere with a {radius_term}."
+    return f"A {size} circle with a {radius_term}."
 
 # Function to create a quantitative description
 def create_quantitative_description(radius, radius_term):
-    if radius_term == "diameter":
+    if (radius_term == "diameter"):
         radius = radius * 2  # Convert radius to diameter
-    return f"A sphere with a {radius_term} of {radius:.2f} units."
+    return f"A circle with a {radius_term} of {radius:.2f} units."
 
 # Generate dataset
 dataset = []
@@ -58,23 +58,27 @@ for _ in range(args.num_datapoints):
     size = random.choice(sizes)
     radius = generate_random_parameters(size)
     radius_term = random.choice(radius_terms)
-    
+
     if random.random() < 0.5:
         # Create qualitative description
         description = create_qualitative_description(size, radius_term)
     else:
         # Create quantitative description
         description = create_quantitative_description(radius, radius_term)
-    
+
     # Always store CAD parameters in terms of radius
-    cad_parameters = Parameters(shape=SupportedShapes.SPHERE, radius=radius)
-    
-    dataset.append({
-        "shape": "sphere",
-        "description": description,
-        "cad_parameters": cad_parameters.to_list()
-    })
+    cad_parameters = Parameters(
+        shape=SupportedShapes.CIRCLE, radius=radius
+    )
+
+    dataset.append(
+        {
+            "shape": "circle",
+            "description": description,
+            "cad_parameters": cad_parameters.to_list(),
+        }
+    )
 
 # Save to JSON file
-with open('sphere_dataset.json', 'w') as f:
+with open("circle_dataset.json", "w") as f:
     json.dump(dataset, f, indent=4)

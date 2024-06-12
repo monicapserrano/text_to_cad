@@ -20,9 +20,9 @@ import Part
 
 # Enum to define supported shapes
 class SupportedShapes(Enum):
-    PLANE = 1
+    PLANE = 0
+    BOX = 1
     CUBE = 2
-    BOX = 2
     CYLINDER = 3
     CONE = 4
     SPHERE = 5
@@ -148,7 +148,7 @@ class RotationEuler:
         return App.Rotation(self.x_rad, self.y_rad, self.z_rad)
 
 
-def __add_to_doc(
+def add_to_doc(
     obj: Part.Feature,
     shape: Part.Shape,
     translation: Optional[Translation],
@@ -209,7 +209,7 @@ class Plane(Shape):
 
     def add_to_doc(
         self,
-        doc: App.Document,
+        doc,
         translation: Optional[Translation],
         rotation: Optional[RotationEuler],
     ):
@@ -222,7 +222,7 @@ class Plane(Shape):
             rotation (Optional[RotationEuler]): Rotation to be applied.
         """
         obj = doc.addObject("Part::Plane", f"Plane_{self.name}")
-        __add_to_doc(
+        add_to_doc(
             obj=obj, shape=self.plane, translation=translation, rotation=rotation
         )
         doc.recompute()
@@ -271,7 +271,7 @@ class Box(Shape):
 
     def add_to_doc(
         self,
-        doc: App.Document,
+        doc,
         translation: Optional[Translation],
         rotation: Optional[RotationEuler],
     ):
@@ -284,10 +284,25 @@ class Box(Shape):
             rotation (Optional[RotationEuler]): Rotation to be applied.
         """
         obj = doc.addObject("Part::Box", f"Box_{self.name}")
-        __add_to_doc(
-            obj=obj, shape=self.box, translation=translation, rotation=rotation
-        )
+        add_to_doc(obj=obj, shape=self.box, translation=translation, rotation=rotation)
         doc.recompute()
+
+
+T_Cube = TypeVar("T_Cube", bound="Cube")
+
+
+class Cube(Box):
+    """
+    Class to create and handle a Cube shape in FreeCAD.
+
+    Attributes:
+        name (str): Name of the box.
+        length (float): Length, height and width of the box.
+    """
+
+    def __init__(self, name: str, length: float) -> Part.Shape:
+        self.name = name
+        self.box = Part.makeBox(length, length, length)
 
 
 T_Cylinder = TypeVar("T_Cylinder", bound="Cylinder")
@@ -329,7 +344,7 @@ class Cylinder(Shape):
 
     def add_to_doc(
         self,
-        doc: App.Document,
+        doc,
         translation: Optional[Translation],
         rotation: Optional[RotationEuler],
     ):
@@ -342,7 +357,7 @@ class Cylinder(Shape):
             rotation (Optional[RotationEuler]): Rotation to be applied.
         """
         obj = doc.addObject("Part::Cylinder", f"Cylinder_{self.name}")
-        __add_to_doc(
+        add_to_doc(
             obj=obj, shape=self.cylinder, translation=translation, rotation=rotation
         )
         doc.recompute()
@@ -407,9 +422,7 @@ class Cone(Shape):
             rotation (Optional[RotationEuler]): Rotation to be applied.
         """
         obj = doc.addObject("Part::Cone", f"Cone_{self.name}")
-        __add_to_doc(
-            obj=obj, shape=self.cone, translation=translation, rotation=rotation
-        )
+        add_to_doc(obj=obj, shape=self.cone, translation=translation, rotation=rotation)
         doc.recompute()
 
 
@@ -427,6 +440,7 @@ class Sphere(Shape):
 
     def __init__(self, name: str, radius: float) -> Part.Shape:
         self.name = name
+        print(radius)
         self.sphere = Part.makeSphere(radius)
 
     @classmethod
@@ -450,7 +464,7 @@ class Sphere(Shape):
 
     def add_to_doc(
         self,
-        doc: App.Document,
+        doc,
         translation: Optional[Translation],
         rotation: Optional[RotationEuler],
     ):
@@ -463,7 +477,7 @@ class Sphere(Shape):
             rotation (Optional[RotationEuler]): Rotation to be applied.
         """
         obj = doc.addObject("Part::Sphere", f"Sphere_{self.name}")
-        __add_to_doc(
+        add_to_doc(
             obj=obj, shape=self.sphere, translation=translation, rotation=rotation
         )
         doc.recompute()
@@ -508,7 +522,7 @@ class Torus(Shape):
 
     def add_to_doc(
         self,
-        doc: App.Document,
+        doc,
         translation: Optional[Translation],
         rotation: Optional[RotationEuler],
     ):
@@ -521,7 +535,7 @@ class Torus(Shape):
             rotation (Optional[RotationEuler]): Rotation to be applied.
         """
         obj = doc.addObject("Part::Torus", f"Torus_{self.name}")
-        __add_to_doc(
+        add_to_doc(
             obj=obj, shape=self.torus, translation=translation, rotation=rotation
         )
         doc.recompute()
@@ -572,7 +586,7 @@ class Helix(Shape):
 
     def add_to_doc(
         self,
-        doc: App.Document,
+        doc,
         translation: Optional[Translation],
         rotation: Optional[RotationEuler],
     ):
@@ -585,7 +599,7 @@ class Helix(Shape):
             rotation (Optional[RotationEuler]): Rotation to be applied.
         """
         obj = doc.addObject("Part::Helix", f"Helix_{self.name}")
-        __add_to_doc(
+        add_to_doc(
             obj=obj, shape=self.helix, translation=translation, rotation=rotation
         )
         doc.recompute()
@@ -628,7 +642,7 @@ class Circle(Shape):
 
     def add_to_doc(
         self,
-        doc: App.Document,
+        doc,
         translation: Optional[Translation],
         rotation: Optional[RotationEuler],
     ):
@@ -641,7 +655,7 @@ class Circle(Shape):
             rotation (Optional[RotationEuler]): Rotation to be applied.
         """
         obj = doc.addObject("Part::Circle", f"Circle_{self.name}")
-        __add_to_doc(
+        add_to_doc(
             obj=obj, shape=self.circle, translation=translation, rotation=rotation
         )
         doc.recompute()

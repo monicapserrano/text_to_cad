@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# PYTHON_ARGCOMPLETE_OK
 """
 Filename: generate_cylinder_data.py
 Author: Monica Perez Serrano
@@ -9,10 +11,11 @@ import json
 import random
 
 from text_to_cad_common.geometric_primitives import SupportedShapes
+from text_to_cad_common.parameter_tools import Parameters
 
 # Define sizes and their qualitative descriptions
 sizes = ["small", "medium", "large"]
-size_to_range = {"small": (1, 3), "medium": (4, 6), "large": (7, 10)}
+size_to_range = {"small": (1, 10), "medium": (11, 50), "large": (51, 100)}
 
 # Different ways to say "radius"
 radius_terms = ["radius", "diameter"]
@@ -60,13 +63,15 @@ for _ in range(1000000):
         )
 
     # Always store CAD parameters in terms of radius and height
-    cad_parameters = [SupportedShapes.CYLINDER.value, radius, height]
+    cad_parameters = Parameters(
+        shape=SupportedShapes.CYLINDER, radius=radius, height=height
+    )
 
     dataset.append(
         {
             "shape": "cylinder",
             "description": description,
-            "cad_parameters": cad_parameters,
+            "cad_parameters": cad_parameters.to_list(),
         }
     )
 

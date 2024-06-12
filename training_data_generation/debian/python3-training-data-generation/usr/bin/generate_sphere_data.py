@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# PYTHON_ARGCOMPLETE_OK
 """
 Filename: generate_sphere_data.py
 Author: Monica Perez Serrano
@@ -9,15 +11,11 @@ import json
 import random
 
 from text_to_cad_common.geometric_primitives import SupportedShapes
-
+from text_to_cad_common.parameter_tools import Parameters
 
 # Define sizes and their qualitative descriptions
 sizes = ["small", "medium", "large"]
-size_to_range = {
-    "small": (1, 3),
-    "medium": (4, 6),
-    "large": (7, 10)
-}
+size_to_range = {"small": (1, 10), "medium": (11, 50), "large": (51, 100)}
 
 # Different ways to say "radius"
 radius_terms = ["radius", "diameter"]
@@ -54,12 +52,12 @@ for _ in range(1000000):
         description = create_quantitative_description(radius, radius_term)
     
     # Always store CAD parameters in terms of radius
-    cad_parameters = [SupportedShapes.SPHERE.value, radius, 0.0]
+    cad_parameters = Parameters(shape=SupportedShapes.SPHERE, radius=radius)
     
     dataset.append({
         "shape": "sphere",
         "description": description,
-        "cad_parameters": cad_parameters
+        "cad_parameters": cad_parameters.to_list()
     })
 
 # Save to JSON file

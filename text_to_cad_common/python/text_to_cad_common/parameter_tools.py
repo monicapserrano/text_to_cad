@@ -64,9 +64,7 @@ def from_list_to_parameter(shape: str, parameters: List[float]) -> Parameters:
             height=parameters[p["height"]],
         )
     elif shape == str(SupportedShapes.SPHERE):
-        return Parameters(
-            shape=SupportedShapes[shape.upper()], radius=parameters[p["radius"]]
-        )
+        return Parameters(shape=SupportedShapes.SPHERE, radius=parameters[p["radius"]])
     elif shape == str(SupportedShapes.TORUS):
         return Parameters(
             shape=SupportedShapes[shape.upper()],
@@ -85,10 +83,8 @@ def from_list_to_parameter(shape: str, parameters: List[float]) -> Parameters:
         return Parameters(
             shape=SupportedShapes[shape.upper()], radius=parameters[p["radius"]]
         )
-    elif shape == str(SupportedShapes.POLYGON):
-        return Parameters(shape=SupportedShapes[shape.upper()])
     else:
-        raise ValueError(f"Unsupported shape type: {shape}")
+        raise ValueError(f"Unsupported shape type: {shape} of type {type(shape)}.")
 
 
 def from_model_output_to_object(
@@ -111,9 +107,12 @@ def from_model_output_to_object(
         len(pose_prediction_vector) > 0
     ), "The pose prediction vector needs to be larger than 0."
 
+    shape_name = SupportedShapes(int(round(shape_prediction_vector[0])))
     return Object3D(
-        name=SupportedShapes(shape_prediction_vector[0]),
-        parameters=shape_prediction_vector[1:],
+        name=shape_name,
+        parameters=from_list_to_parameter(
+            shape=str(shape_name), parameters=shape_prediction_vector[1:]
+        ),
         translation=Translation(
             x=pose_prediction_vector[0],
             y=pose_prediction_vector[1],

@@ -47,6 +47,7 @@ def train(
     y_train_params: torch.Tensor,
     optimizer: torch.optim.Optimizer,
     criterion: torch.nn.Module,
+    device: torch.device,
     batch_size: int = 32,
 ) -> float:
     """
@@ -152,4 +153,7 @@ def predict(
     with torch.no_grad():
         params_pred = model(tensor)
 
-    return params_pred.cpu().numpy()
+    return abs(params_pred.cpu().numpy())
+
+def split_string(input: str) -> str:
+    return input.split()

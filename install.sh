@@ -45,12 +45,8 @@ done
 
 echo "All packages have been built and stored in $TARGET_DIR"
 
-# Iterate over the .deb files in the target directory and install them
-for DEB_FILE in "$TARGET_DIR"/*.deb; do
-    if [ -f "$DEB_FILE" ]; then
-        echo "Installing $DEB_FILE"
-        sudo dpkg -i "$DEB_FILE"
-    fi
-done
+# Install all .deb files in the target directory
+cd "$TARGET_DIR"
+sudo dpkg -i *.deb
 
 echo "All .deb files have been installed"

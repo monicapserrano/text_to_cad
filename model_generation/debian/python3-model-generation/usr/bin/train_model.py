@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# PYTHON_ARGCOMPLETE_OK
 """
 Filename: train_model.py
 Author: Monica Perez Serrano
@@ -25,6 +27,11 @@ import yaml
 from text_to_cad_common.cad_parameter_predictor import CADParameterPredictor
 from text_to_cad_common.common import evaluate, preprocess_description, train
 from text_to_cad_common.parameter_tools import from_list_to_parameter, convert_params
+
+
+def split_string(input: str) -> str:
+    return input.split()
+
 
 if __name__ == "__main__":
     """
@@ -94,6 +101,7 @@ if __name__ == "__main__":
     ).exists(), (
         f"[train_model] The dataset directory {args.datasets_dir} does not exist."
     )
+
     # Load dataset
     log.debug("[train_model] Loading datasets")
     dataset: List[Dict[str, Any]] = []
@@ -102,7 +110,7 @@ if __name__ == "__main__":
             with open(file_path, "r") as f:
                 dataset += json.load(f)
                 log.debug(
-                    f"[train_model] Loaded new data. Current data entries: {len(dataset)}"
+                    f"[train_model] Loaded data from {file_path}. Current data entries: {len(dataset)}"
                 )
     assert (
         len(dataset) > 0
@@ -127,7 +135,7 @@ if __name__ == "__main__":
     y_test_params = convert_params(test_df["cad_parameters"])
 
     # Determine the length of cad_parameters
-    param_length = y_train_params[0]
+    param_length = len(y_train_params[0])
 
     # TODO(@monicapserrano) Check that all parameters have the same length
 
@@ -163,10 +171,14 @@ if __name__ == "__main__":
     hidden_dim = args.hidden_dimension
     output_dim = param_length  # Predicting the maximum number of parameters
 
+    log.info(
+        f"Model dimensions: INPUT DIM - {input_dim}, HIDDEN_DIM - {hidden_dim}, OUTPUT DIM - {output_dim}."
+    )
+
     # Instantiate the model
-    model = CADParameterPredictor(input_dim, hidden_dim, output_dim)
+    model_predictor = CADParameterPredictor(input_dim, hidden_dim, output_dim)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = model.to(device)
+    model = model_predictor.to(device)
 
     # Define optimizer and loss function
     optimizer = optim.Adam(model.parameters())
@@ -178,7 +190,7 @@ if __name__ == "__main__":
 
     for epoch in range(n_epochs):
         train_loss = train(
-            model, X_train, y_train_params, optimizer, criterion, batch_size
+            model, X_train, y_train_params, optimizer, criterion, device, batch_size
         )
         valid_loss = evaluate(model, X_test, y_test_params, criterion, batch_size)
 

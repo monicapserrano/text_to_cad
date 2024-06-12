@@ -8,6 +8,7 @@ Description: This file includes functions to generate freecad 3D objects.
 
 from text_to_cad_common.geometric_primitives import (
     Parameters,
+    Shape,
     SupportedShapes,
     Translation,
     RotationEuler,
@@ -24,6 +25,17 @@ from sys import path as syspath
 syspath.append("/usr/lib/freecad-python3/lib")
 import FreeCAD as App
 
+from text_to_cad_common.geometric_primitives import (
+    Plane,
+    Box,
+    Cylinder,
+    Cone,
+    Sphere,
+    Torus,
+    Helix,
+    Circle,
+)
+
 
 @dataclass
 class Object3D:
@@ -35,10 +47,12 @@ class Object3D:
     rotation: RotationEuler
 
 
-def instantiate_class(class_name: str, *args, **kwargs):
+def instantiate_from_string(
+    class_name: str, name: str, parameters: Parameters
+) -> Shape:
     """Instantiates a class dynamically based on the provided class_name string."""
     cls = globals()[class_name.capitalize()]
-    return cls(*args, **kwargs)
+    return cls.from_parameters(name, parameters)
 
 
 def generate_freecad_file(objects: List[Object3D], output_file: Optional[str]) -> str:
@@ -60,7 +74,11 @@ def generate_freecad_file(objects: List[Object3D], output_file: Optional[str]) -
     i = 0
     for obj in objects:
         i += 1
-        instantiate_class(str(obj.name), i, obj.parameters)
+        instantiate_from_string(str(obj.name), i, obj.parameters).add_to_doc(
+            doc=doc,
+            translation=Translation(100, 10, 10),
+            rotation=RotationEuler(45, 0, 0),
+        )
     try:
         doc.saveAs(output_file)
         log.info(
