@@ -27,6 +27,7 @@ Library containing common functions.
 
 ## Generate training data
 In order to generate training data, you can use the scripts in `training_data_generation`.
+Each script will generate data for a different shape. Once you have generated all the shapes you are interested in, store them in a `datasets` directory.
 
 Example:
 ```
@@ -35,7 +36,8 @@ python3 /usr/bin/generate_sphere_data.py --num-datapoints 1000000
 The command above will generate training data for the primitive shape: sphere.
 
 ## Train a new model
-In order to train the model, you can run the script under `model_generation`.
+In order to train and generate the model, you can run the script under `model_generation`. The model will be stored under the `model.pth` file.
+This script will also generate other files, such are `config.yaml` and `vectorizer.pkl`, which will also be needed when calling the `run_text_to_cad.py` script.
 ```
 python3 /usr/bin/train_model.py --datasets-dir path_to_datasets_dir
 ```
@@ -56,6 +58,13 @@ Training a new model is very resource consuming. Depending on the capabilities o
 - Re-train the model several times.
 
 ## Run text_to_cad
+Once the model is generated, you can start using it! Here is an example:
+
+```
+python3 /usr/bin/run_text_to_cad.py --text-input "A large sphere" --output-file "output_cad.FCStd" --model-file model.pth --config-file config.yaml --vectorizer-file vectorizer.pkl
+```
+
+In order to check all configurable parameters, run:
 ```
 python3 /usr/bin/run_text_to_cad.py --help
 ```
@@ -68,7 +77,7 @@ Please refer to the example in `generative_cad/scripts/example_generate_freecad_
 ```
 python3 /usr/bin/example_generate_freecad_shape.py
 ```
-![alt text](cad_shape_example.jpeg.png)
+![](cad_shape_example.jpeg)
 
 
 ## Installation
