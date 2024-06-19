@@ -68,7 +68,7 @@ In order to check all configurable parameters, run:
 ```
 python3 /usr/bin/run_text_to_cad.py --help
 ```
-Once the freecad file opens, remember to press the space bar when on top of the solid in order to visualize it.
+Once the freecad file opens in Freecad, go to the menu _View --> Visibility --> Show all objects_.
 
 ## Standalone FreeCAD shape generator
 The package `generative_cad` can be used in standalone mode in order to generate a CAD model with one or more primitive shapes.
