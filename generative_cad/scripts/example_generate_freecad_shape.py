@@ -12,73 +12,36 @@ from sys import path as syspath
 
 syspath.append("/usr/lib/freecad-python3/lib")
 
-import FreeCAD as App
-import FreeCADGui as Gui
-import Part
+import subprocess
+from typing import List
 
-from text_to_cad_common.geometric_primitives import (Plane)
 from text_to_cad_common.geometric_primitives import (
+    SupportedShapes,
+    Parameters,
     Translation,
     RotationEuler,
 )
+from generative_cad.freecad_tools import generate_freecad_file, Object3D
+
 if __name__ == "__main__":
+    name: SupportedShapes
+    parameters: Parameters
+    translation: Translation
+    rotation: RotationEuler
 
-    # Example parameters (you can replace this with your actual parameters)
-    degius = 1.0
-    height = 2.0
-
-    # Create a cylinder
-    cylinder = Part.makeCylinder(degius, height)
-
-    # Create a box
-    box = Part.makeBox(100.0, 100.0, 100.0)  # Example dimensions: 1.0 x 1.0 x 1.0
-
-    # Translate the box to a position where it intersects with the cylinder
-    box.translate((0.5, 0.5, height / 2))
-
-    # Fuse operation to combine the shapes
-    result = cylinder.fuse(box)
-
-    # Convert the result to a FreeCAD solid
-    solid = Part.Solid(result)
-
-    # Create a FreeCAD document
-    doc = App.newDocument()
-
-    # Add the solid to the document
-    obj = doc.addObject("Part::Feature", "Result")
-    obj.Shape = result
-    print(f"Object Type {type(obj)}")
-
-    p1 = App.Vector(10, 0, 0)
-    p2 = App.Vector(0, 10, 0)
-    p3 = App.Vector(-10, 0, 0)
-    arc = Part.Arc(p1, p2, p3)
-    obj = doc.addObject("Part::Feature", "Arc")
-    obj.Shape = arc.toShape()
-    # obj.Visibility = True
-
-    doc.recompute()
-    Plane(name="plane", width=100, length=50).add_to_doc(
-        doc=doc, translation=Translation(100, 10, 10), rotation=RotationEuler(45, 0, 0)
+    sphere = Object3D(
+        name=SupportedShapes.SPHERE,
+        parameters=Parameters(shape=SupportedShapes.SPHERE, radius=1),
+        translation=Translation(x=0, y=2, z=2),
+        rotation=RotationEuler(x_rad=0, y_rad=0, z_rad=0),
     )
-
-    # Check if the solid was successfully added to the document
-    if obj.Shape.isNull():
-        print("Error: Failed to create solid")
-    else:
-        print("Solid created successfully")
-
-    # Save the document to a file (optional)
-    file_path = "output_model.fcstd"
-    try:
-        doc.saveAs(file_path)
-        print("Document saved successfully to:", file_path)
-        FreeCAD.closeDocument(doc.Name)
-    except Exception as e:
-        print("Error saving document:", e)
-
-    # Show the FreeCAD GUI (optional)
-    Gui.showMainWindow()
-    # Gui.setWorkbench("PartWorkbench")
-    Gui.activateWorkbench("PartWorkbench")
+    torus = Object3D(
+        name=SupportedShapes.TORUS,
+        parameters=Parameters(shape=SupportedShapes.TORUS, radius1=0.1, radius2=10),
+        translation=Translation(x=-1, y=0, z=1),
+        rotation=RotationEuler(x_rad=1.57, y_rad=0, z_rad=0),
+    )
+    objects: List[Object3D] = [sphere, torus]
+    freecad_file_name = "example_freecad_shape.fcstd"
+    generate_freecad_file(objects=objects, output_file=freecad_file_name)
+    subprocess.run(["freecad", freecad_file_name], check=True)

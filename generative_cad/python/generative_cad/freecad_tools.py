@@ -6,13 +6,6 @@ Description: This file includes functions to generate freecad 3D objects.
 
 """
 
-from text_to_cad_common.geometric_primitives import (
-    Parameters,
-    Shape,
-    SupportedShapes,
-    Translation,
-    RotationEuler,
-)
 from dataclasses import dataclass
 import logging as log
 from typing import Optional, List
@@ -25,17 +18,7 @@ from sys import path as syspath
 syspath.append("/usr/lib/freecad-python3/lib")
 import FreeCAD as App
 
-from text_to_cad_common.geometric_primitives import (
-    Plane,
-    Box,
-    Cylinder,
-    Cone,
-    Sphere,
-    Torus,
-    Helix,
-    Circle,
-)
-
+from text_to_cad_common.geometric_primitives import *
 
 @dataclass
 class Object3D:

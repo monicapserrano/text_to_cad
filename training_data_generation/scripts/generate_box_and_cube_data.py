@@ -14,6 +14,8 @@ import random
 from text_to_cad_common.geometric_primitives import SupportedShapes
 from text_to_cad_common.parameter_tools import Parameters
 
+# TODO(@monicapserrano) Abstract common functions
+
 parser = argparse.ArgumentParser()
 optional = parser.add_argument_group("optional arguments")
 
