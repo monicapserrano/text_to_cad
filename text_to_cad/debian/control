@@ -1,0 +1,18 @@
+Source: text-to-cad
+Section: unknown
+Priority: optional
+Maintainer: Monica Perez Serrano <monicapserrano@outlook.com>
+Build-Depends: debhelper-compat (= 12), dh-python, python3-setuptools, python3-all
+Standards-Version: 4.4.1
+
+Package: python3-text-to-cad
+Architecture: all
+Depends:
+Suggests: python-text-to-cad-doc
+Description: Text to CAD generation.
+
+Package: python-text-to-cad-doc
+Architecture: all
+Section: doc
+Depends: ${sphinxdoc:Depends}, ${misc:Depends}
+Description: Documentation Package

@@ -1,0 +1,18 @@
+Source: text-to-cad-common
+Section: unknown
+Priority: optional
+Maintainer: Monica Perez Serrano <monicapserrano@outlook.com>
+Build-Depends: debhelper-compat (= 12), dh-python, python3-setuptools, python3-all
+Standards-Version: 4.4.1
+
+Package: python3-text-to-cad-common
+Architecture: all
+Depends:
+Suggests: python-text-to-cad-common-doc
+Description: Common functions for text to cCAD.
+
+Package: python-text-to-cad-common-doc
+Architecture: all
+Section: doc
+Depends: ${sphinxdoc:Depends}, ${misc:Depends}
+Description: Documentation package
