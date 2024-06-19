@@ -1,9 +1,0 @@
-bd699d77d16d0329bcf18f488a9289c4  usr/bin/generate_cylinder_data.py
-c7ae15ec9becdb9cd9c262698e4df0c0  usr/bin/generate_sphere_data.py
-8eca90c28db02431be1df6ea1aa0c35f  usr/lib/python3/dist-packages/training_data_generation-1.0.0.egg-info/PKG-INFO
-68b329da9893e34099c7d8ad5cb9c940  usr/lib/python3/dist-packages/training_data_generation-1.0.0.egg-info/dependency_links.txt
-eae1bd8abb5dafe4cddee31a8d50cd14  usr/lib/python3/dist-packages/training_data_generation-1.0.0.egg-info/top_level.txt
-d41d8cd98f00b204e9800998ecf8427e  usr/lib/python3/dist-packages/training_data_generation/__init__.py
-a96be4ecb0f805595b0e33d56b8722e2  usr/share/doc/python3-training-data-generation/README.Debian
-b1618344fe8720c40e625db96303daea  usr/share/doc/python3-training-data-generation/changelog.Debian.gz
-43cb723bf57507afaf7337844437bc4f  usr/share/doc/python3-training-data-generation/copyright

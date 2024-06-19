@@ -1,8 +1,0 @@
-README.md
-setup.py
-python/text_to_cad/__init__.py
-python/text_to_cad.egg-info/PKG-INFO
-python/text_to_cad.egg-info/SOURCES.txt
-python/text_to_cad.egg-info/dependency_links.txt
-python/text_to_cad.egg-info/top_level.txt
-scripts/run_text_to_cad.py

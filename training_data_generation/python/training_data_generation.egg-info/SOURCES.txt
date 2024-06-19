@@ -1,9 +1,0 @@
-README.md
-setup.py
-python/training_data_generation/__init__.py
-python/training_data_generation.egg-info/PKG-INFO
-python/training_data_generation.egg-info/SOURCES.txt
-python/training_data_generation.egg-info/dependency_links.txt
-python/training_data_generation.egg-info/top_level.txt
-scripts/generate_cylinder_data.py
-scripts/generate_sphere_data.py
