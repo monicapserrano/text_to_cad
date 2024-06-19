@@ -53,7 +53,7 @@ if __name__ == "__main__":
     optional.add_argument(
         "--model-file",
         required=False,
-        default="cad_predictor_model.pth",
+        default="model.pth",
         type=str,
         help="Trained model.",
     )

@@ -27,7 +27,7 @@ import yaml
 
 from generative_cad.freecad_tools import generate_freecad_file
 from text_to_cad_common.cad_parameter_predictor import CADParameterPredictor
-from text_to_cad_common.common import predict, split_string
+from text_to_cad_common.common import predict
 from text_to_cad_common.parameter_tools import from_model_output_to_object
 
 

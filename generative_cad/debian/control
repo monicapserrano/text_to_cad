@@ -13,7 +13,4 @@ Package: python-generative-cad-doc
 Architecture: all
 Section: doc
 Depends: ${sphinxdoc:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description> (common documentation)
- <insert long description, indented with spaces>
- .
- This is the common documentation package.
+Description: Documentation package

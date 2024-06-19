@@ -4,25 +4,15 @@ Priority: optional
 Maintainer: Monica Perez Serrano <monicapserrano@outlook.com>
 Build-Depends: debhelper-compat (= 12), dh-python, python3-setuptools, python3-all
 Standards-Version: 4.4.1
-Homepage: <insert the upstream URL, if relevant>
-#Vcs-Browser: https://salsa.debian.org/debian/text-to-cad-common
-#Vcs-Git: https://salsa.debian.org/debian/text-to-cad-common.git
-#Testsuite: autopkgtest-pkg-python
 
 Package: python3-text-to-cad-common
 Architecture: all
-Depends: ${python3:Depends}, ${misc:Depends}
+Depends: sklearn, pytorch, python3-numpy, freecad, python3-generative_cad
 Suggests: python-text-to-cad-common-doc
-Description: <insert up to 60 chars description> (Python 3)
- <insert long description, indented with spaces>
- .
- This package installs the library for Python 3.
+Description: Common functions for text to cCAD.
 
 Package: python-text-to-cad-common-doc
 Architecture: all
 Section: doc
 Depends: ${sphinxdoc:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description> (common documentation)
- <insert long description, indented with spaces>
- .
- This is the common documentation package.
+Description: Documentation package

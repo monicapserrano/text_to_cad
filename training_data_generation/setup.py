@@ -5,15 +5,10 @@ setup(
     packages=find_namespace_packages(where="python"),
     package_dir={"": "python"},
     version="1.0.0",
-    install_requires=[ #TODO(@monicapserrano)
-        # List your package dependencies here, e.g.,
-        # "numpy>=1.18.0",
-    ],
+    install_requires=[text_to_cad_common],
     author="Monica Perez Serrano",
     author_email="monicapserrano@outlook.com",
     description="Generation of training data",
-    long_description=open("README.md").read(),
-    long_description_content_type="text/markdown",
     url="https://github.com/monicapserrano/text_to_cad/training_data_generation",
     classifiers=[
         "Programming Language :: Python :: 3",
