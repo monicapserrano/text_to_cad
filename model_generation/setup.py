@@ -5,7 +5,7 @@ setup(
     packages=find_namespace_packages(where="python"),
     package_dir={"": "python"},
     version="1.0.0",
-    install_requires=[pytorch, text_to_cad_common],
+    install_requires=["pytorch", "python3-text-to-cad-common"],
     author="Monica Perez Serrano",
     author_email="monicapserrano@outlook.com",
     description="Train and generate the model: text to parameter.",

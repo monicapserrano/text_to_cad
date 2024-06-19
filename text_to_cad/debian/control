@@ -7,7 +7,7 @@ Standards-Version: 4.4.1
 
 Package: python3-text-to-cad
 Architecture: all
-Depends: pytorch, python3-text-to-cad, python3-generative-cad
+Depends:
 Suggests: python-text-to-cad-doc
 Description: Text to CAD generation.
 

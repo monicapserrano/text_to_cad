@@ -1,5 +1,6 @@
 model-generation (1.0.0-1) unstable; urgency=medium
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release (Closes: #nnnn)
 
- -- Monica Perez Serrano <monicapserrano@outlook.com>
+ -- Monica Perez Serrano <monicapserrano@outlook.com> Sat, 08 Jun 2024 16:58:04 +0200
+ 

@@ -5,7 +5,7 @@ setup(
     packages=find_namespace_packages(where="python"),
     package_dir={"": "python"},
     version="1.0.0",
-    install_requires=[generative_cad, text_to_cad_common, pytorch, pickle],
+    install_requires=["generative_cad", "text_to_cad_common", "pytorch", "pickle"],
     author="Monica Perez Serrano",
     author_email="monicapserrano@outlook.com",
     description="Text to CAD.",

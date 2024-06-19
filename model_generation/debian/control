@@ -7,7 +7,7 @@ Standards-Version: 4.4.1
 
 Package: python3-model-generation
 Architecture: all
-Depends: text_to_cad_common
+Depends:
 Suggests: python-model-generation-doc
 Description: Model generation for text to CAD.
 

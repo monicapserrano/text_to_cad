@@ -9,8 +9,6 @@ setup(
     author="Monica Perez Serrano",
     author_email="monicapserrano@outlook.com",
     description="Generate FreeCAD 3D shapes.",
-    long_description=open("README.md").read(),
-    long_description_content_type="text/markdown",
     url="https://github.com/monicapserrano/text_to_cad/training_data_generation",
     classifiers=[
         "Programming Language :: Python :: 3",

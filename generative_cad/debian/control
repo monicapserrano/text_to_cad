@@ -5,7 +5,7 @@ Standards-Version: 4.4.1
 
 Package: python3-generative-cad
 Architecture: all
-Depends: ${python3:Depends}, ${misc:Depends}, freecad, python3-text-to-cad-common
+Depends:
 Suggests: python-generative-cad-doc
 Description: Generate CAD files containing 3D shapes using FreeCAD.
 

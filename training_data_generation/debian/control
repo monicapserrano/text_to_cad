@@ -7,7 +7,7 @@ Standards-Version: 4.4.1
 
 Package: python3-training-data-generation
 Architecture: all
-Depends: python3-text-to-cad-common
+Depends:
 Suggests: python-training-data-generation-doc
 Description: Generation of training data for text to CAD model.
 

@@ -7,7 +7,7 @@ Standards-Version: 4.4.1
 
 Package: python3-text-to-cad-common
 Architecture: all
-Depends: sklearn, pytorch, python3-numpy, freecad, python3-generative_cad
+Depends:
 Suggests: python-text-to-cad-common-doc
 Description: Common functions for text to cCAD.
 
